@@ -1,7 +1,7 @@
 # Three Body Problem Visualizer
 
 ## Hack Day 2021
-For Hack Day, we wanted a fun project that was both interesting and would allow us to explore new technologies. The inspiration for the idea came from the [Three Body Problem](https://en.wikipedia.org/wiki/Three-body_problem) presented in the famous sci-fi novel of the same name by Liu Cixin. Using Three.js, a JavaScript 3D library, we created a visualizer for what the three body problem looks like. The naming of the framework couldn't be more perfect for our purposes.
+For Hack Day, we wanted a fun project that was both interesting and would allow us to explore new technologies. The inspiration for the idea came from the [Three Body Problem](https://en.wikipedia.org/wiki/Three-body_problem) presented in the [famous sci-fi novel of the same name](https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)) by Liu Cixin. Using [Three.js](https://threejs.org/), a JavaScript 3D library, we created a visualizer for what the three body problem looks like. The naming of the framework couldn't be more perfect for our purposes.
 
 ## Development
 
