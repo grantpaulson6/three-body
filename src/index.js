@@ -65,17 +65,17 @@ let dv;
 let g = 1000;
 
 // lines
-const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
-
 const NUM_SPHERES = sphere_information.length
 const list_of_points = []
 const list_of_buffer_geometry = []
+const list_of_lineMaterial = []
 const lines = []
 
 for (let i = 0; i < NUM_SPHERES; i++) {
   list_of_points.push([])
   list_of_buffer_geometry.push(new THREE.BufferGeometry().setFromPoints(list_of_points[i]));
-  lines.push(new THREE.Line(list_of_buffer_geometry[i], lineMaterial));
+  list_of_lineMaterial.push(new THREE.LineBasicMaterial({color: sphere_information[i].color}));
+  lines.push(new THREE.Line(list_of_buffer_geometry[i], list_of_lineMaterial[i]));
 }
 
 // functions
@@ -183,6 +183,7 @@ function animate() {
   for (let i = 0; i < NUM_SPHERES; i++) {
     list_of_points[i].push(new THREE.Vector3(spheres[i].ref.position.x, spheres[i].ref.position.y, spheres[i].ref.position.z));
     list_of_buffer_geometry[i].setFromPoints(list_of_points[i])
+    const lineMaterial = list_of_lineMaterial[i];
     lines[i] = new THREE.Line(list_of_buffer_geometry[i], lineMaterial)
   }
 }
