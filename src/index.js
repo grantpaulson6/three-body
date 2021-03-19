@@ -62,7 +62,6 @@ let dy;
 let dz;
 let d;
 let dv;
-let spheres = [sphere1, sphere2, sphere3]//, sphere4, sphere5];
 let g = 1000;
 
 // lines
@@ -168,9 +167,9 @@ function animate() {
   gravity(spheres);
 
   if (list_of_points.length > 0 && list_of_points[0].length > 1000) {
-    for (let arr in list_of_points) {
+    list_of_points.forEach(arr => {
       arr.shift()
-    }
+    })
   }
 
   spheres.forEach((s) => {
