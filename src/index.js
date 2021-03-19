@@ -104,36 +104,6 @@ function gravity(arr) {
   if (arr.length > 2) gravity(arr.slice(1));
 }
 
-function collision(arr) {
-  arr.forEach((sphereA, i) => {
-    arr.slice(i + 1).forEach((sphereB) => {
-      dx = (sphereA.ref.position.x - sphereB.ref.position.x);
-      dy = (sphereA.ref.position.y - sphereB.ref.position.y);
-      dz = (sphereA.ref.position.z - sphereB.ref.position.z);
-      d = (dx ** 2 + dy ** 2 + dz ** 2) ** (0.5);
-
-      if (d < 2 * r) {
-        let dvx = sphereA.v.x - sphereB.v.x;
-        let dvy = sphereA.v.y - sphereB.v.y;
-        let dvz = sphereA.v.z - sphereB.v.z;
-
-        sphereA.v.x -= 1 * dvx;
-        sphereA.v.y -= 1 * dvy;
-        sphereA.v.z -= 1 * dvz;
-
-        sphereB.v.x += 1 * dvx;
-        sphereB.v.y += 1 * dvy;
-        sphereB.v.z += 1 * dvz;
-      }
-    });
-  });
-
-  if (arr.length > 2) gravity(arr.slice(1));
-}
-
-
-
-
 const starQty = 1000;
 const geo1 = new THREE.SphereGeometry(0.1);
 const mat1 = new THREE.MeshBasicMaterial( { color: 0xffffff } );
@@ -145,12 +115,6 @@ for (let i = 0; i < starQty; i++) {
   star.position.z = Math.random() * 200 - 100;
   scene.add( star );
 }
-
-
-
-
-
-
 
 function animate() {
   requestAnimationFrame(animate);
@@ -177,8 +141,6 @@ function animate() {
     s.ref.position.y += (s.v.y * dt);
     s.ref.position.z += (s.v.z * dt);
   })
-
-  collision(spheres)
 
   for (let i = 0; i < NUM_SPHERES; i++) {
     list_of_points[i].push(new THREE.Vector3(spheres[i].ref.position.x, spheres[i].ref.position.y, spheres[i].ref.position.z));
