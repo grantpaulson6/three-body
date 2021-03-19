@@ -1,4 +1,16 @@
 import * as THREE from 'three';
+import * as dat from 'dat.gui';
+
+const gui = new dat.GUI({
+  name: 'Cool Hack Day',
+});
+
+const settings = {
+  force: 1000,
+  zoom: 20
+}
+gui.add(settings, 'force', 0, 10000);
+gui.add(settings, 'zoom', 0, 100);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -62,7 +74,6 @@ let dy;
 let dz;
 let d;
 let dv;
-let g = 1000;
 
 // lines
 const NUM_SPHERES = sphere_information.length
@@ -86,7 +97,7 @@ function gravity(arr) {
       dy = (sphereA.ref.position.y - sphereB.ref.position.y);
       dz = (sphereA.ref.position.z - sphereB.ref.position.z);
       d = (dx ** 2 + dy ** 2 + dz ** 2) ** (0.5);
-      dv = dt * g / d ** 0.5;
+      dv = dt * settings.force / d ** 0.5;
 
       dvx = dv * dx / d;
       dvy = dv * dy / d;
@@ -127,6 +138,7 @@ function animate() {
     scene.add(lines[i])
   }
   renderer.render(scene, camera);
+  camera.setFocalLength(settings.zoom)
   t += dt;
   gravity(spheres);
 
