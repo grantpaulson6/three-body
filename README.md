@@ -1,8 +1,7 @@
-# three-js-webpack
+# three-body
 
-Starter project for Three.JS. Configured with Webpack 4 as a bundler.
-
-Great and easy way to bootstrap your Three.JS project.
+## Hack Day 2021
+For Hack Day, we wanted a fun project that was both interesting and would allow us to explore new technologies. The inspiration for the idea came from the [Three Body Problem](https://en.wikipedia.org/wiki/Three-body_problem) presented in the famous sci-fi novel of the same name by Liu Cixin. Using Three.js, a JavaScript 3D library, we created a visualizer for what the three body problem looks like. The naming of the framework couldn't be more perfect for our purposes.
 
 ## Development
 
@@ -17,27 +16,4 @@ Start webpack development server:
 
 ```bash
 npm run start
-```
-
-Webpack configuration is located in [`webpack.config.js`](webpack.config.js).
-
-## Deployment on GitHub Pages
-
-**Works with any other static website hosting too.**
-
-Bundle your code, and push it in your repo:
-
-```bash
-npm run build
-git add
-git commit -m"Deploying on GitHub Pages"
-git push
-```
-
-## Extra
-
-The code can be formated with prettier:
-
-```bash
-npm run format
 ```
