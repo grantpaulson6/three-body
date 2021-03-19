@@ -14,53 +14,43 @@ scene.add( cube );
 
 camera.position.z = 100;
 
-// const lineMaterial = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-// const points = [];
-// points.push( new THREE.Vector3( - 1, 0, 0 ) );
-// points.push( new THREE.Vector3( 0, 1, 0 ) );
-// points.push( new THREE.Vector3( 1, 0, 0 ) );
-// const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
-// const line = new THREE.Line( lineGeometry, lineMaterial );
-// scene.add( line );
+// spheres
+const sphere_information = [
+  {
+    v: { x: 0, y: 0, z: 0 },
+    position: { x: -10, y: 0, z: 20 },
+    color: 0x00ff00
+  },
+  {
+    v: { x: 0, y: 0, z: 0 },
+    position: { x: 35, y: -15, z: 0},
+    color: 0xDF870F
+  },
+  {
+    v: { x: 0, y: 0, z: 0 },
+    position: { x: 0, y: 40, z: -20},
+    color: 0x0F12DF
+  }
+]
 
 let r = 2;
 let sphereGeometry = new THREE.SphereGeometry(r);
-let sphereMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-let sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-let sphere1 = { ref: sphere, v: { x: 0, y: 0, z: 0 } };
-sphere.position.z = 20;
-sphere.position.x = -10;
-scene.add( sphere1.ref );
 
-sphereMaterial = new THREE.MeshBasicMaterial( { color: 0xDF870F } );
-sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-sphere.position.x = 35;
-sphere.position.y = -15;
-let sphere2 = { ref: sphere, v: { x: 0, y: 0, z: 0 } };
-scene.add( sphere2.ref );
+const spheres = []
+for (let i = 0; i < sphere_information.length; i++) {
+  const cur_sphere_info = sphere_information[i]
+  const {v, position, color} = cur_sphere_info
+  const {x, y, z} = position
 
-sphereMaterial = new THREE.MeshBasicMaterial( { color: 0x0F12DF } );
-sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-sphere.position.y = 40;
-sphere.position.z = -20;
-let sphere3 = { ref: sphere, v: { x: 0, y: 0, z: 0 } };
-scene.add( sphere3.ref );
-
-sphereMaterial = new THREE.MeshBasicMaterial( { color: 0x7F00FF } );
-sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-sphere.position.y = 30;
-sphere.position.z = -30;
-sphere.position.x = -30;
-let sphere4 = { ref: sphere, v: { x: 0, y: 0, z: 0 } };
-scene.add( sphere4.ref );
-
-sphereMaterial = new THREE.MeshBasicMaterial( { color: 0x7000F0F } );
-sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-sphere.position.y = 20;
-sphere.position.z = 10;
-sphere.position.x = 30;
-let sphere5 = { ref: sphere, v: { x: 0, y: 0, z: 0 } };
-scene.add( sphere5.ref );
+  let sphereMaterial = new THREE.MeshBasicMaterial({ color });
+  let sphere_mesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  let sphere = { ref: sphere_mesh, v };
+  sphere_mesh.position.x = x
+  sphere_mesh.position.y = y
+  sphere_mesh.position.z = z
+  spheres.push(sphere)
+  scene.add(sphere.ref)
+}
 
 let t = 0;
 let dt = 0.01;
@@ -75,12 +65,27 @@ let dv;
 let spheres = [sphere1, sphere2, sphere3]//, sphere4, sphere5];
 let g = 1000;
 
+// lines
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+
+const NUM_SPHERES = sphere_information.length
+const list_of_points = []
+const list_of_buffer_geometry = []
+const lines = []
+
+for (let i = 0; i < NUM_SPHERES; i++) {
+  list_of_points.push([])
+  list_of_buffer_geometry.push(new THREE.BufferGeometry().setFromPoints(list_of_points[i]));
+  lines.push(new THREE.Line(list_of_buffer_geometry[i], lineMaterial));
+}
+
+// functions
 function gravity(arr) {
   arr.forEach((sphereA, i) => {
     arr.slice(i + 1).forEach((sphereB) => {
       dx = (sphereA.ref.position.x - sphereB.ref.position.x);
       dy = (sphereA.ref.position.y - sphereB.ref.position.y);
-      dz = (sphereA.ref.position.z - sphereB.ref.position.z) ;
+      dz = (sphereA.ref.position.z - sphereB.ref.position.z);
       d = (dx ** 2 + dy ** 2 + dz ** 2) ** (0.5);
       dv = dt * g / d ** 0.5;
 
@@ -149,16 +154,24 @@ for (let i = 0; i < starQty; i++) {
 
 
 function animate() {
-  requestAnimationFrame( animate );
+  requestAnimationFrame(animate);
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
   cube.rotation.z += 0.01;
   cube.position.x = (Math.cos(t));
   cube.position.y = Math.sin(t);
-  renderer.render( scene, camera );
+  for (let i = 0; i < NUM_SPHERES; i++) {
+    scene.add(lines[i])
+  }
+  renderer.render(scene, camera);
   t += dt;
-
   gravity(spheres);
+
+  if (list_of_points.length > 0 && list_of_points[0].length > 1000) {
+    for (let arr in list_of_points) {
+      arr.shift()
+    }
+  }
 
   spheres.forEach((s) => {
     s.ref.position.x += (s.v.x * dt);
@@ -168,5 +181,10 @@ function animate() {
 
   collision(spheres)
 
+  for (let i = 0; i < NUM_SPHERES; i++) {
+    list_of_points[i].push(new THREE.Vector3(spheres[i].ref.position.x, spheres[i].ref.position.y, spheres[i].ref.position.z));
+    list_of_buffer_geometry[i].setFromPoints(list_of_points[i])
+    lines[i] = new THREE.Line(list_of_buffer_geometry[i], lineMaterial)
+  }
 }
 animate();
