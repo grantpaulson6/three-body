@@ -30,17 +30,17 @@ camera.position.z = 100;
 const sphere_information = [
   {
     v: { x: 0, y: 0, z: 0 },
-    position: { x: -10, y: 0, z: 20 },
+    position: { x: Math.random() * 40 - 20, y: Math.random() * 40 - 20, z: Math.random() * 40 - 20 },
     color: 0x00ff00
   },
   {
     v: { x: 0, y: 0, z: 0 },
-    position: { x: 35, y: -15, z: 0},
+    position: { x: Math.random() * 40 - 20, y: Math.random() * 40 - 20, z: Math.random() * 40 - 20 },
     color: 0xDF870F
   },
   {
     v: { x: 0, y: 0, z: 0 },
-    position: { x: 0, y: 40, z: -20},
+    position: { x: Math.random() * 40 - 20, y: Math.random() * 40 - 20, z: Math.random() * 40 - 20 },
     color: 0x0F12DF
   }
 ]
